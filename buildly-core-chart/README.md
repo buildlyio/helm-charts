@@ -125,3 +125,40 @@ kube-proxy-m7s47                  1/1       Running   0          23h
 kube-proxy-pzgds                  1/1       Running   0          23h
 tiller-deploy-549fb567f6-f9xsh    1/1       Running   0          54s
 ```
+
+### Check version of kubectl and create a name space
+```console
+kubectl create -f namespace-buildly.json
+```
+If you have a problem check the version the client should not be more then 1 minor version away from the server
+```console
+kubectl version
+
+brew switch kubernetes-cli v1.15.3
+brew upgrade kubernetes-cli
+kubectl version
+kubectl create -f namespace-buildly.json
+```
+Also check if you have google-cloud-sdk in your path it may be forcing your client to a GCP preferred version
+
+Set context to namespace
+```console
+kubectl config set-context buildly --namespace buildly
+```
+
+kubectl config set-context dev --namespace=buildly \
+>   --cluster=do-nyc1-k8s-1-15-3-do-1-nyc1-1567006107778 \
+>   --user=system:serviceaccount:kube-system:default
+
+Update Tiller account
+``` console
+helm install buildly-core-chart --namespace buildly --name buildly
+kubectl create serviceaccount tiller --namespace kube-system
+kubectl create -f tiller-clusterrolebinding.yaml
+kubectl create -f tiller-clusterrolebinding.yaml
+helm init --service-account tiller --upgrade
+```
+Now Install Buildly
+``` console
+helm install buildly-core-chart --namespace buildly --name buildly
+```
