@@ -16,9 +16,9 @@ buildly-core:
     name: buildly-core
     port: 5432
 
-defaultFromEmail: support@example.com
-defaultOauthDomains: walhall.com,humanitec.com
+defaultFromEmail: support@buildly.io
+defaultOauthDomains: buildly.io
 defaultOrg: Humanitec
-defaultReplyTo: noreply@example.com
+defaultReplyTo: noreply@buildly.io
 secrets: "-"
 jwtSecrets: buildly-core-test-main-secrets
