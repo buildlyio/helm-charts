@@ -63,15 +63,16 @@ The following table lists the configurable parameters of the drone charts and th
 | `images.dind.pullPolicy`    | Docker **dind** image pull policy                                                             | `IfNotPresent`              |
 
 
-Digital Ocean Steps
-
+## Digital Ocean Steps
 
 Download Digital Oceans DOCTL tool from GitHub
 
+```console
 doctl auth init
+```
 
 Get or set your local access token from Digital Oceans API manager
-https://cloud.digitalocean.com/account/api/tokens?i=8d4e75
+https://cloud.digitalocean.com/account/api/tokens
 
 Download the kubeconfig file for the cluster and move to your ~/.kube directory
 k8s-1-15-3-do-1-nyc1-1567006107778-kubeconfig.yaml
@@ -82,7 +83,7 @@ kubectl config current-context --kubeconfig ~/.kube/k8s-1-15-3-do-1-nyc1-1567006
 kubectl config use-context do-nyc1-k8s-1-15-3-do-1-nyc1-1567006107778
 ```
 
-HELM
+### Helm with DO
 ```console
 11:19:16$ kubectl config use-context do-nyc1-k8s-1-15-3-do-1-nyc1-1567006107778
 Switched to context "do-nyc1-k8s-1-15-3-do-1-nyc1-1567006107778".

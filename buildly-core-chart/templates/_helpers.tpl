@@ -36,13 +36,13 @@ Expand the name of the chart.
 - name: DATABASE_ENGINE
   value: postgresql
 - name: DATABASE_HOST
-  value: "db-postgresql-nyc1-buildly1-do-user-2508039-0.db.ondigitalocean.com"
+  value: ""
 - name: DATABASE_NAME
   value: "defaultdb"
 - name: DATABASE_USER
-  value: "doadmin"
+  value: ""
 - name: DATABASE_PASSWORD
-  value: "u2hjugdj7dtq0m0g"
+  value: ""
 - name: DATABASE_PORT
   value: "25060"
 - name: DEBUG
