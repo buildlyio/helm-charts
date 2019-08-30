@@ -1,10 +1,10 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: buildly-core
+  name: buildly
 spec:
   rules:
-  - host: {{ .Values.buildly-core.host }}
+  - host: {{ .Values.buildly.host }}
     http:
       paths:
       - path: /*
@@ -13,5 +13,5 @@ spec:
           servicePort: 8080
   tls:
   - hosts:
-    - {{ .Values.buildly-core.host }}
-    secretName: {{ .Values.buildly-core.host }}
+    - {{ .Values.buildly.host }}
+    secretName: {{ .Values.buildly.host }}

@@ -1,11 +1,11 @@
-# buildly-core variables
+# buildly variables
 # It deploys the application
-buildly-core:
+buildly:
   replicaCount: 2
-  host: define.buildly-core.host.com
+  host: define.buildly.host.com
   protocol: https
   image:
-    repository: index.docker.io/buildly/buildly-core
+    repository: index.docker.io/buildly/buildly
     tag: latest
   debug: true
   loadinitialdata: true
@@ -13,7 +13,7 @@ buildly-core:
   admin:
     email: admin@buildly.io
   database:
-    name: buildly-core
+    name: buildly
     port: 5432
 
 defaultFromEmail: support@buildly.io
@@ -21,4 +21,4 @@ defaultOauthDomains: buildly.io
 defaultOrg: Humanitec
 defaultReplyTo: noreply@buildly.io
 secrets: "-"
-jwtSecrets: buildly-core-test-main-secrets
+jwtSecrets: buildly-test-main-secrets

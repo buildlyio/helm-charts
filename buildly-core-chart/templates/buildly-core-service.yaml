@@ -1,14 +1,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: buildly-core
+  name: buildly
 spec:
   ports:
   - name: "http"
     port: 8080
     targetPort: 8080
   selector:
-    app: buildly-core
+    app: buildly
     release: {{ .Release.Name }}
     releaseName: {{ .Release.Name }}
   type: NodePort

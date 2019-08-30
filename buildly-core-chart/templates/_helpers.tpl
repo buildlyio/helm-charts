@@ -2,13 +2,13 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "buildly-coreBase.environment" -}}
+{{- define "buildlyBase.environment" -}}
 - name: ALLOWED_HOSTS
   value: "*"
 - name: DEFAULT_OAUTH_DOMAINS
   value: {{ .Values.defaultOauthDomains }}
 - name: DJANGO_SETTINGS_MODULE
-  value: buildly-core-api.settings.production
+  value: buildly-api.settings.production
 - name: SOCIAL_AUTH_GOOGLE_OAUTH2_KEY
   valueFrom:
     secretKeyRef:
@@ -20,14 +20,14 @@ Expand the name of the chart.
       name: {{ template "getMainSecretsName" . }}
       key: googleOauth2Secret
 - name: SOCIAL_AUTH_LOGIN_REDIRECT_URL
-  value: {{ .Values.buildly-core.protocol }}://{{ .Values.buildly-core.host }}/
+  value: {{ .Values.buildly.protocol }}://{{ .Values.buildly.host }}/
 - name: SOCIAL_AUTH_MICROSOFT_GRAPH_KEY
   valueFrom:
     secretKeyRef:
       name: {{ template "getMainSecretsName" . }}
       key: microsoftGraphKey
 - name: SOCIAL_AUTH_MICROSOFT_GRAPH_REDIRECT_URL
-  value: {{ .Values.buildly-core.protocol }}://{{ .Values.buildly-core.host }}/complete/microsoft-graph
+  value: {{ .Values.buildly.protocol }}://{{ .Values.buildly.host }}/complete/microsoft-graph
 - name: SOCIAL_AUTH_MICROSOFT_GRAPH_SECRET
   valueFrom:
     secretKeyRef:
@@ -46,11 +46,11 @@ Expand the name of the chart.
 - name: DATABASE_PORT
   value: "25060"
 - name: DEBUG
-  value: {{ if .Values.buildly-core.debug }} "True" {{ else }} "False" {{ end }}
+  value: {{ if .Values.buildly.debug }} "True" {{ else }} "False" {{ end }}
 - name: ALLOWED_HOSTS
-  value: {{ .Values.buildly-core.host }}
+  value: {{ .Values.buildly.host }}
 - name: CORS_ORIGIN_WHITELIST
-  value: {{ range .Values.buildly-core.additionalCorsOriginWhitelist }}{{ . }},{{ end }}
+  value: {{ range .Values.buildly.additionalCorsOriginWhitelist }}{{ . }},{{ end }}
 - name: DEFAULT_FROM_EMAIL
   value: {{ .Values.defaultFromEmail }}
 - name: DEFAULT_ORG
@@ -60,7 +60,7 @@ Expand the name of the chart.
 - name: API_URL
   value: /api/docs
 - name: DOCUMENTATION_URL
-  value: http://www.github.com/buildlyio/buildly-core/README.md
+  value: http://www.github.com/buildlyio/buildly/README.md
 - name: OAUTH_CLIENT_ID
   valueFrom:
     secretKeyRef:
@@ -74,34 +74,34 @@ Expand the name of the chart.
 - name: PYTHONUNBUFFERED
   value: "1"
 - name: SET_PROGRAM_ADMIN_DEFAULT
-  value: {{ if .Values.buildly-core.setProgramAdminDefault }} "True" {{ else }} "False" {{ end }}
+  value: {{ if .Values.buildly.setProgramAdminDefault }} "True" {{ else }} "False" {{ end }}
 {{ template "additionalEnvironmentVariables" . }}
 {{- end -}}
 
 {{- define "additionalEnvironmentVariables" -}}
-{{- with .Values.buildly-core.additionalEnvironmentVariables }}
+{{- with .Values.buildly.additionalEnvironmentVariables }}
 {{ toYaml . }}
 {{- end }}
 {{- end }}
 
-{{- define "buildly-core.environment" -}}
-{{ template "buildly-coreBase.environment" . }}
+{{- define "buildly.environment" -}}
+{{ template "buildlyBase.environment" . }}
 - name: CREATE_DEFAULT_PROGRAM
-  value: {{ if .Values.buildly-core.createDefaultProgram }} "True" {{ else }} "False" {{ end }}
+  value: {{ if .Values.buildly.createDefaultProgram }} "True" {{ else }} "False" {{ end }}
 {{- end -}}
-{{- define "buildly-coreRestoreInitialDemoDataCronJob.environment" -}}
-{{ template "buildly-coreBase.environment" . }}
+{{- define "buildlyRestoreInitialDemoDataCronJob.environment" -}}
+{{ template "buildlyBase.environment" . }}
 - name: CREATE_DEFAULT_PROGRAM
   value: "True"
 {{- end -}}
-{{- define "buildly-coreLoadInitialData.environment" -}}
-{{ template "buildly-coreBase.environment" . }}
+{{- define "buildlyLoadInitialData.environment" -}}
+{{ template "buildlyBase.environment" . }}
 - name: CREATE_DEFAULT_PROGRAM
-  value: {{ if .Values.buildly-core.createDefaultProgram }} "True" {{ else }} "False" {{ end }}
+  value: {{ if .Values.buildly.createDefaultProgram }} "True" {{ else }} "False" {{ end }}
 {{- end -}}
-{{- define "buildly-coreCheckMigrationsReadyInitContainer" -}}
+{{- define "buildlyCheckMigrationsReadyInitContainer" -}}
 - name: check-migrations-ready
-  image: {{ .Values.buildly-core.image.repository }}:{{ .Values.buildly-core.image.tag }}
+  image: {{ .Values.buildly.image.repository }}:{{ .Values.buildly.image.tag }}
   env:
   command:
     - /bin/sh
@@ -118,6 +118,6 @@ Expand the name of the chart.
 {{- end -}}
 {{- end -}}
 
-{{- define "getbuildly-coreURL" -}}
-{{ .Values.buildly-core.protocol }}://{{ .Values.buildly-core.host }}
+{{- define "getbuildlyURL" -}}
+{{ .Values.buildly.protocol }}://{{ .Values.buildly.host }}
 {{- end -}}

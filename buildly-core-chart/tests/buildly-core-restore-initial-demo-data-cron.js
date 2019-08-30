@@ -1,5 +1,5 @@
 'use strict';
-const expectedEnvironmentVariables = require('./commons').buildly-core.base.env;
+const expectedEnvironmentVariables = require('./commons').buildly.base.env;
 
 
 describe('Chart to restore initial demo data', () => {
@@ -13,14 +13,14 @@ describe('Chart to restore initial demo data', () => {
     before(done => {
       helm
       .withValueFile('values.yaml')
-      .set('buildly-core.restoreInitialDemoData.enabled', 'true')
-      .set('buildly-core.loadinitialdataScriptName', loadinitialdataScriptName)
-      .set('buildly-core.image.repository', activityapiImageRepository)
-      .set('buildly-core.image.tag', activityapiImageTag)
-      .set('buildly-core.restoreInitialDemoData.schedule', scheduledTime)
-      .set('buildly-core.postgres.image', activityapiPostgresImage)
-      .set('buildly-core.additionalCorsOriginWhitelist[0]', 'some.domain')
-      .set('buildly-core.additionalCorsOriginWhitelist[1]', 'another.domain')
+      .set('buildly.restoreInitialDemoData.enabled', 'true')
+      .set('buildly.loadinitialdataScriptName', loadinitialdataScriptName)
+      .set('buildly.image.repository', activityapiImageRepository)
+      .set('buildly.image.tag', activityapiImageTag)
+      .set('buildly.restoreInitialDemoData.schedule', scheduledTime)
+      .set('buildly.postgres.image', activityapiPostgresImage)
+      .set('buildly.additionalCorsOriginWhitelist[0]', 'some.domain')
+      .set('buildly.additionalCorsOriginWhitelist[1]', 'another.domain')
       .go(done);
     });
 
@@ -35,7 +35,7 @@ describe('Chart to restore initial demo data', () => {
       let env;
 
       before(() => {
-        sut = results.ofType('CronJob').find((value) => value.metadata.name === 'RELEASE-NAME-buildly-core-restore-initial-demo-data');
+        sut = results.ofType('CronJob').find((value) => value.metadata.name === 'RELEASE-NAME-buildly-restore-initial-demo-data');
         const templateSpec = sut.spec.jobTemplate.spec.template.spec;
         imagePullSecrets = sut.spec.jobTemplate.spec.template.spec.imagePullSecrets;
         restartPolicy = templateSpec.restartPolicy;
@@ -71,7 +71,7 @@ describe('Chart to restore initial demo data', () => {
           checkDbReadyInitContainer.command.should.be.deepEqual([
             '/bin/sh',
             '-c',
-            'until pg_isready -h RELEASE-NAME-buildly-core-postgres -p 5432; do echo waiting for database; sleep 2; done;',
+            'until pg_isready -h RELEASE-NAME-buildly-postgres -p 5432; do echo waiting for database; sleep 2; done;',
           ]);
         });
       });

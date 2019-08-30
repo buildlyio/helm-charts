@@ -1,38 +1,38 @@
 'use strict';
-const expectedEnvironmentVariables = require('./commons').buildly-core.base.env;
-const buildly-coreHost = require('./commons').buildly-core.base.host;
+const expectedEnvironmentVariables = require('./commons').buildly.base.env;
+const buildlyHost = require('./commons').buildly.base.host;
 const {
   baseIngress,
   baseService,
 } = require('./commons');
 
 
-describe('buildly-core Chart', () => {
-  const buildly-coreImageRepository = 'somebuildly-coreimagerepository';
-  const buildly-coreImageTag = 'somebuildly-coreimagetag';
+describe('buildly Chart', () => {
+  const buildlyImageRepository = 'somebuildlyimagerepository';
+  const buildlyImageTag = 'somebuildlyimagetag';
   const numberOrReplicas = 100;
 
   before(done => {
     helm
     .withValueFile('values.yaml')
-    .set('buildly-core.image.repository', buildly-coreImageRepository)
-    .set('buildly-core.image.tag', buildly-coreImageTag)
-    .set('buildly-core.createDefaultProgram', true)
-    .set('buildly-core.additionalCorsOriginWhitelist[0]', 'some.domain')
-    .set('buildly-core.additionalCorsOriginWhitelist[1]', 'another.domain')
-    .set('buildly-core.host', buildly-coreHost)
-    .set('buildly-core.replicaCount', numberOrReplicas)
+    .set('buildly.image.repository', buildlyImageRepository)
+    .set('buildly.image.tag', buildlyImageTag)
+    .set('buildly.createDefaultProgram', true)
+    .set('buildly.additionalCorsOriginWhitelist[0]', 'some.domain')
+    .set('buildly.additionalCorsOriginWhitelist[1]', 'another.domain')
+    .set('buildly.host', buildlyHost)
+    .set('buildly.replicaCount', numberOrReplicas)
     .go(done);
   });
 
-  baseService('RELEASE-NAME', 'buildly-core');
+  baseService('RELEASE-NAME', 'buildly');
 
-  baseIngress('RELEASE-NAME', 'buildly-core', buildly-coreHost);
+  baseIngress('RELEASE-NAME', 'buildly', buildlyHost);
 
   context('Deployments', () => {
     let sut;
     before(() => {
-      sut = results.ofType('Deployment').find((value) => value.metadata.name === 'RELEASE-NAME-buildly-core');
+      sut = results.ofType('Deployment').find((value) => value.metadata.name === 'RELEASE-NAME-buildly');
     });
 
     it('should be deployed', () => {
@@ -97,7 +97,7 @@ describe('buildly-core Chart', () => {
         });
 
         it('should have correct image', () => {
-          checkMigrationsReadyInitContainer.image.should.be.equal(`${buildly-coreImageRepository}:${buildly-coreImageTag}`);
+          checkMigrationsReadyInitContainer.image.should.be.equal(`${buildlyImageRepository}:${buildlyImageTag}`);
         });
 
         it('should have correct command', () => {
@@ -116,20 +116,20 @@ describe('buildly-core Chart', () => {
       });
     });
 
-    context('buildly-core container', () => {
-      let buildly-coreContainer;
+    context('buildly container', () => {
+      let buildlyContainer;
       before(() => {
-        buildly-coreContainer = sut.spec.template.spec.containers.find(val => val.name === 'buildly-core');
+        buildlyContainer = sut.spec.template.spec.containers.find(val => val.name === 'buildly');
       });
 
       it('should exist', () => {
-        should.exist(buildly-coreContainer);
+        should.exist(buildlyContainer);
       });
 
       context('Environment variables', () => {
         let env;
         before(() => {
-          env = buildly-coreContainer.env;
+          env = buildlyContainer.env;
         });
 
         it('should have at least one', () => {
@@ -146,7 +146,7 @@ describe('buildly-core Chart', () => {
       context('Liveness probe', () => {
         let livenessProbe;
         before(() => {
-          livenessProbe = buildly-coreContainer.livenessProbe;
+          livenessProbe = buildlyContainer.livenessProbe;
         });
 
         it('should have correct parameters', () => {
@@ -156,7 +156,7 @@ describe('buildly-core Chart', () => {
               port: 8080,
               httpHeaders: [{
                 name: 'Host',
-                value: buildly-coreHost,
+                value: buildlyHost,
               }],
             },
             initialDelaySeconds: 3,
@@ -169,7 +169,7 @@ describe('buildly-core Chart', () => {
       context('Command', () => {
         let command;
         before(() => {
-          command = buildly-coreContainer.command.join(' ');
+          command = buildlyContainer.command.join(' ');
         });
 
         it('should have correct command', () => {
@@ -198,21 +198,21 @@ describe('buildly-core Chart', () => {
     },
   },
 ].forEach(value => {
-  describe(`buildly-core Chart when setProgramAdminDefault is set to '${value.given.setProgramAdminDefault}'`, () => {
+  describe(`buildly Chart when setProgramAdminDefault is set to '${value.given.setProgramAdminDefault}'`, () => {
     before(done => {
       helm
       .withValueFile('values.yaml')
-      .set('buildly-core.setProgramAdminDefault', value.given.setProgramAdminDefault)
+      .set('buildly.setProgramAdminDefault', value.given.setProgramAdminDefault)
       .go(done);
     });
 
-    context('buildly-core container', () => {
+    context('buildly container', () => {
       let env;
       before(() => {
         env = results.ofType('Deployment')
-          .find((value) => value.metadata.name === 'RELEASE-NAME-buildly-core')
+          .find((value) => value.metadata.name === 'RELEASE-NAME-buildly')
           .spec.template.spec.containers
-          .find(val => val.name === 'buildly-core').env;
+          .find(val => val.name === 'buildly').env;
       });
       [value.expect].forEach((expectedValue) => {
         it(`should have environment variable ${expectedValue.name} set to ${expectedValue.value || JSON.stringify(expectedValue.valueFrom)}`, () => {
@@ -239,21 +239,21 @@ describe('buildly-core Chart', () => {
     },
   },
 ].forEach(value => {
-  describe(`buildly-core Chart when createDefaultProgram is set to '${value.given.createDefaultProgram}'`, () => {
+  describe(`buildly Chart when createDefaultProgram is set to '${value.given.createDefaultProgram}'`, () => {
     before(done => {
       helm
       .withValueFile('values.yaml')
-      .set('buildly-core.createDefaultProgram', value.given.createDefaultProgram)
+      .set('buildly.createDefaultProgram', value.given.createDefaultProgram)
       .go(done);
     });
 
-    context('buildly-core container', () => {
+    context('buildly container', () => {
       let env;
       before(() => {
         env = results.ofType('Deployment')
-          .find((value) => value.metadata.name === 'RELEASE-NAME-buildly-core')
+          .find((value) => value.metadata.name === 'RELEASE-NAME-buildly')
           .spec.template.spec.containers
-          .find(val => val.name === 'buildly-core').env;
+          .find(val => val.name === 'buildly').env;
       });
       [value.expect].forEach((expectedValue) => {
         it(`should have environment variable ${expectedValue.name} set to ${expectedValue.value || JSON.stringify(expectedValue.valueFrom)}`, () => {

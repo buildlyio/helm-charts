@@ -14,7 +14,7 @@ keywords:
 - buildly.io
 - django
 sources:
-- https://github.com/buildlyio/buildly-core
+- https://github.com/buildlyio/buildly
 maintainers:
 - name: greg-lind
   email: greg@buildly.io

@@ -1,2 +1,2 @@
-buildly-core:
+buildly:
   host: bc-test.k8s.buildly.io

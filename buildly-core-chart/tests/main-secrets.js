@@ -1,5 +1,5 @@
 'use strict';
-describe('buildly-core Chart for Main secrets', () => {
+describe('buildly Chart for Main secrets', () => {
   context('No secrets defined', () => {
     before(done => {
       helm
@@ -23,9 +23,9 @@ describe('buildly-core Chart for Main secrets', () => {
 
       context('Main secrets', () => {
         const  mandatoryKeys = [
-          'buildly-corePostgresPassword',
-          'buildly-coreToken',
-          'buildly-coreToken',
+          'buildlyPostgresPassword',
+          'buildlyToken',
+          'buildlyToken',
           'googleApiKey',
           'googleClientId',
           'googleOauthClientId',

@@ -19,5 +19,5 @@
 .project
 .idea/
 *.tmproj
-*buildly-core-*.tgz
+*buildly-*.tgz
 tests/
