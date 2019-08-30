@@ -1,0 +1,22 @@
+apiVersion: v1
+name: buidly-core
+home: https://buildly.io/
+icon: https://buildly.io/icon.png
+version: 0.0.7
+appVersion: 1.0
+description: Buildy is Software Architecture as a Service
+keywords:
+- gateway
+- user-management
+- Rapid-Application-Development
+- docker
+- python
+- buildly.io
+- django
+sources:
+- https://github.com/buildlyio/buildly-core
+maintainers:
+- name: greg-lind
+  email: greg@buildly.io
+- name: jeferson-moura
+  email: jeferson@buildly.io

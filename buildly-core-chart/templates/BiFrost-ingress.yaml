@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: bifrost
+spec:
+  rules:
+  - host: {{ .Values.bifrost.host }}
+    http:
+      paths:
+      - path: /*
+        backend:
+          serviceName: {{ .Release.Name }}
+          servicePort: 8080
+  tls:
+  - hosts:
+    - {{ .Values.bifrost.host }}
+    secretName: {{ .Values.bifrost.host }}
