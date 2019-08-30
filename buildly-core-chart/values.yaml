@@ -1,11 +1,11 @@
-# BiFrost variables
+# buildly-core variables
 # It deploys the application
-bifrost:
+buildly-core:
   replicaCount: 2
-  host: define.bifrost.host.com
+  host: define.buildly-core.host.com
   protocol: https
   image:
-    repository: index.docker.io/buildly/bifrost
+    repository: index.docker.io/buildly/buildly-core
     tag: latest
   debug: true
   loadinitialdata: true
@@ -13,7 +13,7 @@ bifrost:
   admin:
     email: admin@buildly.io
   database:
-    name: bifrost
+    name: buildly-core
     port: 5432
 
 defaultFromEmail: support@example.com
@@ -21,4 +21,4 @@ defaultOauthDomains: walhall.com,humanitec.com
 defaultOrg: Humanitec
 defaultReplyTo: noreply@example.com
 secrets: "-"
-jwtSecrets: bifrost-test-main-secrets
+jwtSecrets: buildly-core-test-main-secrets

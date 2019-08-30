@@ -1,2 +1,2 @@
-bifrost:
-  host: bf-test.k8s.bifrost.io
+buildly-core:
+  host: bf-test.k8s.buildly-core.io

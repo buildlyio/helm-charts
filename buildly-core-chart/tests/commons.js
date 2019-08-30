@@ -1,4 +1,4 @@
-const bifrostHost = 'define.bifrost.host.com';
+const buildly-coreHost = 'define.buildly-core.host.com';
 
 const baseService = (releaseName, serviceName) => {
   context('Services', () => {
@@ -81,9 +81,9 @@ const baseIngress = (releaseName, serviceName, host) => {
 module.exports = {
   baseIngress,
   baseService,
-  bifrost: {
+  buildly-core: {
     base: {
-      host: bifrostHost,
+      host: buildly-coreHost,
       env: [
         {
           "name": "DEFAULT_OAUTH_DOMAINS",
@@ -95,7 +95,7 @@ module.exports = {
         },
         {
           "name": "ELASTICSEARCH_URL",
-          "value": "http://RELEASE-NAME-bifrost-elasticsearch:9200/"
+          "value": "http://RELEASE-NAME-buildly-core-elasticsearch:9200/"
         },
         {
           "name": "SOCIAL_AUTH_GOOGLE_OAUTH2_KEY",
@@ -117,7 +117,7 @@ module.exports = {
         },
         {
           "name": "SOCIAL_AUTH_LOGIN_REDIRECT_URL",
-          "value": `https://${bifrostHost}/`
+          "value": `https://${buildly-coreHost}/`
         },
         {
           "name": "SOCIAL_AUTH_MICROSOFT_GRAPH_KEY",
@@ -130,7 +130,7 @@ module.exports = {
         },
         {
           "name": "SOCIAL_AUTH_MICROSOFT_GRAPH_REDIRECT_URL",
-          "value": `https://${bifrostHost}/complete/microsoft-graph`
+          "value": `https://${buildly-coreHost}/complete/microsoft-graph`
         },
         {
           "name": "SOCIAL_AUTH_MICROSOFT_GRAPH_SECRET",
@@ -147,11 +147,11 @@ module.exports = {
         },
         {
           "name": "DATABASE_HOST",
-          "value": "RELEASE-NAME-bifrost-postgres"
+          "value": "RELEASE-NAME-buildly-core-postgres"
         },
         {
           "name": "DATABASE_NAME",
-          "value": "bifrost"
+          "value": "buildly-core"
         },
         {
           "name": "DATABASE_USER",
@@ -161,7 +161,7 @@ module.exports = {
           "name": "DATABASE_PASSWORD",
           "valueFrom": {
             "secretKeyRef": {
-              "key": "bifrostPostgresPassword",
+              "key": "buildly-corePostgresPassword",
               "name": "RELEASE-NAME-main-secrets"
             }
           }
@@ -176,7 +176,7 @@ module.exports = {
         },
         {
           "name": "ALLOWED_HOSTS",
-          "value": bifrostHost
+          "value": buildly-coreHost
         },
         {
           "name": "CORS_ORIGIN_WHITELIST",

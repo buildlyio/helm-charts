@@ -1,10 +1,10 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: bifrost
+  name: buildly-core
 spec:
   rules:
-  - host: {{ .Values.bifrost.host }}
+  - host: {{ .Values.buildly-core.host }}
     http:
       paths:
       - path: /*
@@ -13,5 +13,5 @@ spec:
           servicePort: 8080
   tls:
   - hosts:
-    - {{ .Values.bifrost.host }}
-    secretName: {{ .Values.bifrost.host }}
+    - {{ .Values.buildly-core.host }}
+    secretName: {{ .Values.buildly-core.host }}

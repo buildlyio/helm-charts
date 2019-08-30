@@ -1,5 +1,5 @@
 'use strict';
-describe('BiFrost Chart for Main secrets', () => {
+describe('buildly-core Chart for Main secrets', () => {
   context('No secrets defined', () => {
     before(done => {
       helm
@@ -23,9 +23,9 @@ describe('BiFrost Chart for Main secrets', () => {
 
       context('Main secrets', () => {
         const  mandatoryKeys = [
-          'bifrostPostgresPassword',
-          'bifrostToken',
-          'bifrostToken',
+          'buildly-corePostgresPassword',
+          'buildly-coreToken',
+          'buildly-coreToken',
           'googleApiKey',
           'googleClientId',
           'googleOauthClientId',
