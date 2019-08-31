@@ -2,7 +2,7 @@
 # It deploys the application
 buildly:
   replicaCount: 2
-  host: define.buildly.host.com
+  host: demo.buildly.io
   protocol: https
   image:
     repository: index.docker.io/buildly/buildly
