@@ -162,3 +162,36 @@ Now Install Buildly
 ``` console
 helm install buildly-core-chart --namespace buildly --name buildly
 ```
+
+Verify RELEASE
+``` console
+helm status buildly-core-chart
+```
+
+Confirm and configure Cluster in the K8 dashboard
+``` console
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta1/aio/deploy/recommended.yaml
+
+kubectl proxy
+```
+
+Get Token for auth
+``` console
+kubectl --kubeconfig=../kubeconfigs/k8s-1-15-3-do-1-nyc1-1567006107778-kubeconfig.yaml get secret -n kube-system
+NAME                               TYPE                                  DATA   AGE
+cilium-operator-token-p44p5        kubernetes.io/service-account-token   3      2d21h
+cilium-token-xlhkv                 kubernetes.io/service-account-token   3      2d21h
+coredns-token-mpxpd                kubernetes.io/service-account-token   3      2d21h
+csi-do-controller-sa-token-gnp68   kubernetes.io/service-account-token   3      2d21h
+csi-do-node-sa-token-m7hrt         kubernetes.io/service-account-token   3      2d21h
+default-token-86mdz                kubernetes.io/service-account-token   3      2d21h
+do-agent-token-2mkg4               kubernetes.io/service-account-token   3      2d21h
+etcd-secrets                       Opaque                                3      2d21h
+kube-proxy                         Opaque                                1      2d21h
+kube-proxy-token-f2z2p             kubernetes.io/service-account-token   3      2d21h
+tiller-token-hgrj9                 kubernetes.io/service-account-token   3      45h
+--- @ Gregs-MBP-2 (glind) ~/Projects
+09:03:23$ kubectl --kubeconfig=../kubeconfigs/k8s-1-15-3-do-1-nyc1-1567006107778-kubeconfig.yaml describe secret tiller-token-hgrj9 -n kube-system
+```
+Use Token to login via proxy API_URL
+http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/overview?namespace=default
