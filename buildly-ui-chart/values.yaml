@@ -1,0 +1,47 @@
+# buildly variables
+# It deploys the application
+buildly:
+  replicaCount: 2
+  host: demo-admin.buildly.io
+  protocol: https
+  image:
+    repository: index.docker.io/buildly/buildly-ui
+    tag: latest
+  debug: true
+  loadinitialdata: true
+  loadinitialdataScriptName: loadinitialdata
+  admin:
+    email: admin@buildly.io
+  database:
+    name: buildly
+    port: 5432
+
+
+# Buildly config map configuration
+configmap:
+  name: buildly-ui-vars
+  data:
+    API_URL: "demo.buildly.io"
+
+
+# ingress configuration
+ingress:
+  name: buildly-ui-ingress
+  hosts:
+    - demo-admin.buildly.io
+  tls:
+    - hosts:
+        - demo-admin.buildly.io
+      secretName: demo-admin.buildly.io
+  annotations:
+    ingress.kubernetes.io/ssl-redirect: "true"
+    kubernetes.io/tls-acme: "true"
+    certmanager.k8s.io/cluster-issuer: letsencrypt-demo
+    kubernetes.io/ingress.class: "nginx"
+
+
+defaultFromEmail: support@buildly.io
+defaultOauthDomains: buildly.io
+defaultOrg: Buildly
+defaultReplyTo: noreply@buildly.io
+secrets: "-"
