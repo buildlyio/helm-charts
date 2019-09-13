@@ -2,9 +2,7 @@
 
 [Buildly](https://buildly.io/) Buildly is Software Architecture as a Service - The Buildly core is a gateway layer for cloud native architectures running containerized services in a Kubernetes cluster.  It has a pluggable architecture for additional modules like USERS - user management, MESH - datamesh and aggregation for rest services, and TEMPLATES - a reuseable set of workflow models for optimizing application building and information architectures.
 
-To install Buildly on [Digital Ocean Managed Kubernetes Cluster](https://www.digitalocean.com/products/kubernetes/) follow the steps outlined below using Helm 2.+
-
-## TL;DR;    |
+To install Buildly on [Digital Ocean Managed Kubernetes Cluster](https://www.digitalocean.com/products/kubernetes/) follow the steps outlined below using Helm 2.+ |
 
 ## Digital Ocean Setup Steps
 
