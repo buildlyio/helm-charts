@@ -1,0 +1,73 @@
+# buildly deployment configuration
+buildly:
+  name: buildly-core
+  replicaCount: 2
+  image:
+    repository: index.docker.io/buildly/buildly
+    version: latest
+
+network:
+  service:
+    name: buildly-core-service
+    port: 8080
+    type: ClusterIP
+  ingress:
+    name: buildly-core-ingress
+    hosts:
+      - demo.buildly.io
+    tls:
+      - hosts:
+          - demo.buildly.io
+        secretName: demo.buildly.io
+
+
+# buildly config map configuration
+configmap:
+  name: buildly-core-configmap
+  data:
+    ACCESS_TOKEN_EXPIRE_SECONDS: "3600"
+    ALLOWED_HOSTS: '*'
+    API_URL: "/api"
+    CORS_ORIGIN_ALLOW_ALL: "True"
+    CORS_ORIGIN_WHITELIST: '*'
+    DATABASE_ENGINE: postgresql
+    DATABASE_HOST: 127.0.0.1
+    DATABASE_NAME: buildly
+    DATABASE_PORT: "5432"
+    DOCUMENTATION_URL: "https://github.com/buildlyio/buildly-core/blob/master/README.md"
+    JWT_ISSUER: "buildly"
+    USE_PASSWORD_USER_ATTRIBUTE_SIMILARITY_VALIDATOR: "True"
+    USE_PASSWORD_MINIMUM_LENGTH_VALIDATOR: "True"
+    PASSWORD_MINIMUM_LENGTH: "6"
+    USE_PASSWORD_COMMON_VALIDATOR: "True"
+    USE_PASSWORD_NUMERIC_VALIDATOR: "True"
+
+# buildly secrets configuration
+# all secret values listed here are for development purpose
+secret:
+  name: buildly-core-secrets
+  data:
+    DATABASE_USER: cG9zdGdyZXM=
+    DATABASE_PASSWORD: cG9zdGdyZXM=
+    JWT_PRIVATE_KEY_RSA_BUILDLY: LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLVxuTUlJQk93SUJBQUpCQUxGYzlORlphT2FTd1VNUE5la3RidEpxRWpZWjZJUkJxaHF2SnUxaEtQWW45SFlkNzVjMFxuZ0lEWUhKOWxiN1F3UXZnNDRhTzI3MTA0ckRLMHhTc3R6TDBDQXdFQUFRSkFlNXo1MDk2b3llcUdYNkorUkdHeFxuMTF5dURKN0orME40dHRoVUhTV1dVdGdrZDE5TnZtVE0vbVZMbVBDelpIZ05VVCthV1VLc1E4NCtqaHJ1L05RRFxuMFFJaEFPSE96Rm1qeGpUQVIxanNwbjZZdEpCS1FCNDB0dlQ2V0V2bTJtS20wYUQ3QWlFQXlSUHdYeVpmM0pUK1xuTTZVaTBNdWJzN1FiL0U0ZzFkL2tWTCtvL1hvWkM2Y0NJUUMrbkt6UHRub29LVytRMXlPc2xnZEdEZ2VWOS9YQlxuVWxxYXArTU5oN2hKWlFJZ1pOYU0rd3FobEZ0Yng4YU8yU3Jpb0pJNFhxVkhyam9qcGFTZ09NM2NkWTBDSVFEQlxuUTZja09hRFY5MzdhY21XdWlaaHh1RzJldU5Md05iTWxkdENWNUFEby9nPT1cbi0tLS0tRU5EIFJTQSBQUklWQVRFIEtFWS0tLS0t
+    JWT_PUBLIC_KEY_RSA_BUILDLY: LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS1cbk1Gd3dEUVlKS29aSWh2Y05BUUVCQlFBRFN3QXdTQUpCQUxGYzlORlphT2FTd1VNUE5la3RidEpxRWpZWjZJUkJcbnFocXZKdTFoS1BZbjlIWWQ3NWMwZ0lEWUhKOWxiN1F3UXZnNDRhTzI3MTA0ckRLMHhTc3R6TDBDQXdFQUFRPT1cbi0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLQ==
+    SECRET_KEY: ZWsqKWI9bXRjYzdxMWN5bUBvb3gobHlyejFuY3otKHcrKCMmdTdsLSYpN2E4d3YjX2s=
+
+# buildly resources configuration
+resources:
+  limits:
+    cpu: 250m
+    memory: 512Mi
+  requests:
+    cpu: 50m
+    memory: 128Mi
+
+# buildly GCP configuration
+gcp:
+  enable: False
+  cloudsql:
+    name: ""
+    port: ""
+    project_id: ""
+    region: ""
+    secretName: ""
