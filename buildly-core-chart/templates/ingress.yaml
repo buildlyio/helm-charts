@@ -1,0 +1,30 @@
+{{- $serviceName := .Values.network.service.name -}}
+{{- $servicePort := .Values.network.service.port -}}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ .Values.network.ingress.name }}
+{{- with .Values.network.ingress.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
+spec:
+{{- if .Values.network.ingress.tls }}
+  tls:
+  {{- range .Values.network.ingress.tls }}
+    - hosts:
+      {{- range .hosts }}
+        - {{ . | quote }}
+      {{- end }}
+      secretName: {{ .secretName }}
+  {{- end }}
+{{- end }}
+  rules:
+  {{- range .Values.network.ingress.hosts }}
+    - host: {{ . | quote }}
+      http:
+        paths:
+        - backend:
+            serviceName: {{ $serviceName }}
+            servicePort: {{ $servicePort }}
+  {{- end }}
