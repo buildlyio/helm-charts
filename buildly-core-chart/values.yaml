@@ -1,0 +1,62 @@
+# buildly variables
+# It deploys the application
+buildly:
+  replicaCount: 2
+  host: demo.buildly.io
+  protocol: https
+  image:
+    repository: index.docker.io/buildly/buildly
+    tag: latest
+  debug: true
+  loadinitialdata: true
+  loadinitialdataScriptName: loadinitialdata
+  admin:
+    email: admin@buildly.io
+  database:
+    name: buildly
+    port: 5432
+
+# Buildly config map configuration
+configmap:
+  ACCESS_TOKEN_EXPIRE_SECONDS: "86400"
+  ALLOWED_HOSTS: "'*'"
+  API_URL: "https://demo.buildly.io"
+  CORS_ORIGIN_ALLOW_ALL: "True"
+  CORS_ORIGIN_WHITELIST: "'*'"
+  DATABASE_ENGINE: postgresql
+  DATABASE_HOST: 127.0.0.1
+  DATABASE_NAME: buildly
+  DATABASE_PORT: "5432"
+
+# Docker registry credentials
+dockerregistry:
+  name: regcred
+  credentials: eyJhdXRocyI6IHsiaHR0cHM6Ly9pbmRleC5kb2NrZXIuaW8vdjEvIjogeyJhdXRoIjogImFtVm1iVzkxY21FNk5EQXhNekk1TW1WNE9VRXcifSwicmVnaXN0cnkudG9sYS5pbyI6IHsiYXV0aCI6ICJZV1J0YVc1QWRHOXNZUzVwYnpwb1pXbFFhSFUxZEdocFpXNW5iMnRoYVV3MmRXOXhkVGg1YVRGQ1lUWmhZV2RoYUhCb01HSmxhVkpoYURWNllXVnFaV2x1WjJGcGR6VmphR1ZwZERsbyJ9LCJyZWdpc3RyeS53YWxoYWxsLmlvIjogeyJhdXRoIjogImIyUnBianBYZW1ZcVVrZzVkRE5HIn19LCJIdHRwSGVhZGVycyI6IHsiVXNlci1BZ2VudCI6ICJEb2NrZXItQ2xpZW50LzE4LjA5LjMgKGxpbnV4KSJ9fQ==
+
+# DB credentials and configuration
+db_credentials:
+  username: cG9zdGdyZXM=
+  password: N0xsNnBweHhqbG1xUGYzbQ==
+
+# ingress configuration
+ingress:
+  name: buildly-ingress
+  hosts:
+    - demo.buildly.io
+  tls:
+    - hosts:
+        - demo.buildly.io
+      secretName: demo.buildly.io
+  annotations:
+    ingress.kubernetes.io/ssl-redirect: "true"
+    kubernetes.io/tls-acme: "true"
+    certmanager.k8s.io/cluster-issuer: letsencrypt-demo
+    kubernetes.io/ingress.class: "nginx"
+
+
+defaultFromEmail: support@buildly.io
+defaultOauthDomains: buildly.io
+defaultOrg: Buildly
+defaultReplyTo: noreply@buildly.io
+secrets: "-"
+jwtSecrets: buildly-test-main-secrets

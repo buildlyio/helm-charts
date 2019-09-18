@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-buildly-configmap
+data:
+  ACCESS_TOKEN_EXPIRE_SECONDS: "{{ .Values.configmap.ACCESS_TOKEN_EXPIRE_SECONDS }}"
+  ALLOWED_HOSTS: "{{ .Values.configmap.ALLOWED_HOSTS }}"
+  API_URL: "{{ .Values.configmap.API_URL }}"
+  CORS_ORIGIN_ALLOW_ALL: "{{ .Values.configmap.CORS_ORIGIN_ALLOW_ALL }}"
+  CORS_ORIGIN_WHITELIST: "{{ .Values.configmap.CORS_ORIGIN_WHITELIST }}"
+  DATABASE_ENGINE: {{ .Values.configmap.DATABASE_ENGINE }}
+  DATABASE_HOST: {{ .Values.configmap.DATABASE_HOST }}
+  DATABASE_NAME: {{ .Values.configmap.DATABASE_NAME }}
+  DATABASE_PORT: "{{ .Values.configmap.DATABASE_PORT }}"
