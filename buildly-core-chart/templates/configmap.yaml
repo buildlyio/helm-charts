@@ -1,0 +1,8 @@
+apiVersion: v1
+{{- with .Values.configmap.data }}
+data:
+{{ toYaml . | indent 2 }}
+{{- end }}
+kind: ConfigMap
+metadata:
+  name: {{ .Values.configmap.name }}
