@@ -1,0 +1,44 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ .Values.buildly.name }}
+  labels:
+    app: {{ .Values.buildly.name }}
+spec:
+  replicas: {{ .Values.buildly.replicaCount }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 100%
+      maxUnavailable: 25%
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.buildly.name }}
+    spec:
+      containers:
+      - name: {{ .Values.buildly.name }}
+        envFrom:
+        - configMapRef:
+            name: {{ .Values.configmap.name }}
+        env:
+        {{- include "buildly.secrets" . | nindent 6 }}
+        image: "{{ .Values.buildly.image.repository }}:{{ .Values.buildly.image.version }}"
+        ports:
+        - containerPort: {{ .Values.network.service.port }}
+        readinessProbe:
+          httpGet:
+            path: /health_check/
+            port: {{ .Values.network.service.port }}
+            scheme: HTTP
+          initialDelaySeconds: 45
+          periodSeconds: 30
+          timeoutSeconds: 3
+          successThreshold: 1
+          failureThreshold: 5
+        resources:
+        {{- toYaml .Values.resources | nindent 10 }}
+      {{- if .Values.gcp.enable }}
+      {{- include "buildly.gcp" . | nindent 4 }}
+      {{- end }}
+      restartPolicy: Always
