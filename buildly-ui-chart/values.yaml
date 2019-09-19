@@ -1,47 +1,46 @@
-# buildly variables
-# It deploys the application
-buildly:
+# buildly ui deployment configuration
+buildlyUi:
+  name: buildly-ui
   replicaCount: 2
-  host: demo-admin.buildly.io
-  protocol: https
   image:
     repository: index.docker.io/buildly/buildly-ui
-    tag: latest
-  debug: true
-  loadinitialdata: true
-  loadinitialdataScriptName: loadinitialdata
-  admin:
-    email: admin@buildly.io
-  database:
-    name: buildly
-    port: 5432
+    version: latest
+
+network:
+  service:
+    name: buildly-ui-service
+    port: 9000
+    type: ClusterIP
+  ingress:
+    name: buildly-ui-ingress
+    hosts:
+      - demo-app.buildly.io
+    tls:
+      - hosts:
+          - demo-app.buildly.io
+        secretName: demo-app.buildly.io
 
 
-# Buildly config map configuration
+# buildly ui config map configuration
 configmap:
-  name: buildly-ui-vars
+  name: buildly-ui-configmap
   data:
-    API_URL: "demo.buildly.io"
+    API_URL: "https://demo-api.buildly.io/"
+    OAUTH_TOKEN_URL: "https://demo-api.buildly.io/oauth/token/"
+    PRODUCTION: "true"
 
+# buildly ui secrets configuration
+# all secret values listed here are for development purpose
+secret:
+  name: buildly-ui-secrets
+  data:
+    OAUTH_CLIENT_ID: d2tYTGxDOWgzazBqeEl4N29MbGx4cEZWVTg5RHhnaTdPOEZZWnlmWA==
 
-# ingress configuration
-ingress:
-  name: buildly-ui-ingress
-  hosts:
-    - demo-admin.buildly.io
-  tls:
-    - hosts:
-        - demo-admin.buildly.io
-      secretName: demo-admin.buildly.io
-  annotations:
-    ingress.kubernetes.io/ssl-redirect: "true"
-    kubernetes.io/tls-acme: "true"
-    certmanager.k8s.io/cluster-issuer: letsencrypt-demo
-    kubernetes.io/ingress.class: "nginx"
-
-
-defaultFromEmail: support@buildly.io
-defaultOauthDomains: buildly.io
-defaultOrg: Buildly
-defaultReplyTo: noreply@buildly.io
-secrets: "-"
+# buildly ui resources configuration
+resources:
+  limits:
+    cpu: 250m
+    memory: 512Mi
+  requests:
+    cpu: 50m
+    memory: 128Mi
