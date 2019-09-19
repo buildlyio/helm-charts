@@ -1,16 +1,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: buildly
+  name: {{ .Values.network.service.name }}
+  labels:
+    app: {{ .Values.network.service.name }}
 spec:
   ports:
-  - name: "http"
-    port: 8080
-    targetPort: 8080
+    - port: {{ .Values.network.service.port }}
+      targetPort: {{ .Values.network.service.port }}
+      protocol: TCP
   selector:
-    app: buildly
-    release: {{ .Release.Name }}
-    releaseName: {{ .Release.Name }}
-  type: NodePort
-status:
-  loadBalancer: {}
+    app: {{ .Values.buildlyUi.name }}
+  type: {{ .Values.network.service.type }}
