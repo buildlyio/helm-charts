@@ -1,34 +1,41 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: buildly
+  name: {{ .Values.buildlyUi.name }}
   labels:
-    app: buildly
-    chart: buildly-chart
-    release: buildly
+    app: {{ .Values.buildlyUi.name }}
 spec:
-  replicas: {{ .Values.buildly.replicaCount }}
+  replicas: {{ .Values.buildlyUi.replicaCount }}
   strategy:
     type: RollingUpdate
     rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 1
+      maxSurge: 100%
+      maxUnavailable: 25%
   template:
     metadata:
       labels:
-        app: buildly
-        release: {{ .Release.Name }}
-        releaseName: {{ .Release.Name }}
+        app: {{ .Values.buildlyUi.name }}
     spec:
       containers:
-      - name: buildly
+      - name: {{ .Values.buildlyUi.name }}
         envFrom:
         - configMapRef:
-            name: buildly-vars
-        image: "{{ .Values.buildly.image.repository }}:{{ .Values.buildly.image.tag }}"
+            name: {{ .Values.configmap.name }}
+        env:
+        {{- include "buildlyUi.secrets" . | nindent 6 }}
+        image: "{{ .Values.buildlyUi.image.repository }}:{{ .Values.buildlyUi.image.version }}"
         ports:
-        - containerPort: 8080
-        resources: {}
+        - containerPort: {{ .Values.network.service.port }}
+        readinessProbe:
+          httpGet:
+            path: /
+            port: {{ .Values.network.service.port }}
+            scheme: HTTP
+          initialDelaySeconds: 45
+          periodSeconds: 30
+          timeoutSeconds: 3
+          successThreshold: 1
+          failureThreshold: 5
+        resources:
+        {{- toYaml .Values.resources | nindent 10 }}
       restartPolicy: Always
-      imagePullSecrets:
-        - name: regcred
