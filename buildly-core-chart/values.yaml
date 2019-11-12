@@ -4,7 +4,7 @@ buildly:
   replicaCount: 2
   image:
     repository: index.docker.io/buildly/buildly
-    version: latest
+    version: 0.4.0
 
 network:
   service:
