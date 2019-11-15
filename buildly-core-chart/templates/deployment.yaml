@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Values.buildly.name }}
@@ -11,6 +11,9 @@ spec:
     rollingUpdate:
       maxSurge: 100%
       maxUnavailable: 25%
+  selector:
+    matchLabels:
+      app: {{ .Values.buildly.name }}
   template:
     metadata:
       labels:
@@ -26,16 +29,6 @@ spec:
         image: "{{ .Values.buildly.image.repository }}:{{ .Values.buildly.image.version }}"
         ports:
         - containerPort: {{ .Values.network.service.port }}
-        readinessProbe:
-          httpGet:
-            path: /health_check/
-            port: {{ .Values.network.service.port }}
-            scheme: HTTP
-          initialDelaySeconds: 45
-          periodSeconds: 30
-          timeoutSeconds: 3
-          successThreshold: 1
-          failureThreshold: 5
         resources:
         {{- toYaml .Values.resources | nindent 10 }}
       {{- if .Values.gcp.enable }}
