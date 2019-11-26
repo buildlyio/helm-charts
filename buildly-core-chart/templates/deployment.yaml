@@ -27,6 +27,7 @@ spec:
         env:
         {{- include "buildly.secrets" . | nindent 6 }}
         image: "{{ .Values.buildly.image.repository }}:{{ .Values.buildly.image.version }}"
+        imagePullPolicy: {{ .Values.buildly.image.pullPolicy }}
         ports:
         - containerPort: {{ .Values.network.service.port }}
         resources:

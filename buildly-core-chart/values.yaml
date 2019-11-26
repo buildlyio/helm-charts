@@ -3,6 +3,7 @@ buildly:
   name: buildly-core
   replicaCount: 2
   image:
+    pullPolicy: Always
     repository: index.docker.io/buildly/buildly
     version: 0.4.0
 
