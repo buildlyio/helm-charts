@@ -5,7 +5,7 @@ buildly:
   image:
     pullPolicy: Always
     repository: index.docker.io/buildly/buildly
-    version: 0.4.0
+    version: 0.5.0
 
 network:
   service:
