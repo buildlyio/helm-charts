@@ -1,0 +1,26 @@
+{{- if eq .Values.network.type "Ingress" }}
+{{- $serviceName := .Values.network.service.name -}}
+{{- $servicePort := .Values.network.service.port -}}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ .Values.network.ingress.name }}
+{{- with .Values.network.ingress.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
+spec:
+{{- if .Values.network.ingress.tls }}
+  tls:
+    - hosts:
+        - {{ .Values.network.ingress.url }}
+      secretName: {{ .Values.network.ingress.url }}
+{{- end }}
+  rules:
+    - host: {{ .Values.network.ingress.url }}
+      http:
+        paths:
+        - backend:
+            serviceName: {{ $serviceName }}
+            servicePort: {{ $servicePort }}
+{{- end }}

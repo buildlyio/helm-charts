@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.buildlyTemplate.name }}
+  labels:
+    app: {{ .Values.buildlyTemplate.name }}
+spec:
+  replicas: {{ .Values.buildlyTemplate.replicaCount }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 100%
+      maxUnavailable: 25%
+  selector:
+    matchLabels:
+      app: {{ .Values.buildlyTemplate.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.buildlyTemplate.name }}
+    spec:
+      containers:
+      - name: {{ .Values.buildlyTemplate.name }}
+        envFrom:
+        - configMapRef:
+            name: {{ .Values.configmap.name }}
+        env:
+        {{- include "buildlyTemplate.secrets" . | nindent 6 }}
+        image: {{ include "buildlyTemplate.imageUrl" . }}
+        ports:
+        - containerPort: {{ .Values.network.service.port }}
+        readinessProbe:
+          httpGet:
+            path: /
+            port: {{ .Values.network.service.port }}
+            scheme: HTTP
+          initialDelaySeconds: 45
+          periodSeconds: 30
+          timeoutSeconds: 3
+          successThreshold: 1
+          failureThreshold: 5
+        resources:
+        {{- toYaml .Values.resources | nindent 10 }}
+      restartPolicy: Always

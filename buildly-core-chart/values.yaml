@@ -29,10 +29,10 @@ configmap:
   name: buildly-core-configmap
   data:
     ACCESS_TOKEN_EXPIRE_SECONDS: "3600"
-    ALLOWED_HOSTS: '*'
+    ALLOWED_HOSTS: "*"
     API_URL: "/api"
     CORS_ORIGIN_ALLOW_ALL: "True"
-    CORS_ORIGIN_WHITELIST: '*'
+    CORS_ORIGIN_WHITELIST: "*"
     DATABASE_ENGINE: postgresql
     DATABASE_HOST: 127.0.0.1
     DATABASE_NAME: buildly

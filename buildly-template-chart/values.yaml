@@ -1,0 +1,41 @@
+# buildly template deployment configuration
+buildlyTemplate:
+  name: buildly-template
+  framework: react
+  replicaCount: 1
+  version: 0.1.0
+
+network:
+  type: LoadBalancer # or Ingress, or NodePort
+  service:
+    name: buildly-template-service
+    port: 9000
+    type: ClusterIP
+  ingress:
+    name: buildly-template-ingress
+    url: ""
+    tls: false
+  nodeport:
+    port: 0
+
+
+# buildly template config map configuration
+configmap:
+  name: buildly-template-configmap
+  data:
+    API_URL: ""
+    OAUTH_TOKEN_URL: ""
+    PRODUCTION: ""
+
+# buildly template secrets configuration
+# all secret values listed here are for development purpose
+secret:
+  name: buildly-template-secrets
+  data:
+    OAUTH_CLIENT_ID: d2tYTGxDOWgzazBqeEl4N29MbGx4cEZWVTg5RHhnaTdPOEZZWnlmWA==
+
+# buildly template resources configuration
+resources:
+  limits:
+    cpu: 50m
+    memory: 128Mi
