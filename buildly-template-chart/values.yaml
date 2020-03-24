@@ -3,7 +3,7 @@ buildlyTemplate:
   name: buildly-template
   framework: react
   replicaCount: 1
-  version: 0.1.0
+  version: 0.1.1
 
 network:
   type: LoadBalancer # or Ingress, or NodePort
