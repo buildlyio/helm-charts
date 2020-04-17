@@ -30,7 +30,6 @@ configmap:
   data:
     ACCESS_TOKEN_EXPIRE_SECONDS: "3600"
     ALLOWED_HOSTS: "*"
-    API_URL: "/api"
     CORS_ORIGIN_ALLOW_ALL: "True"
     CORS_ORIGIN_WHITELIST: "*"
     DATABASE_ENGINE: postgresql
@@ -39,7 +38,6 @@ configmap:
     DATABASE_PORT: "5432"
     DEBUG: "True"
     DJANGO_SETTINGS_MODULE: "buildly.settings.production"
-    DOCUMENTATION_URL: "https://github.com/buildlyio/buildly-core/blob/master/README.md"
     JWT_ISSUER: "buildly"
     USE_PASSWORD_USER_ATTRIBUTE_SIMILARITY_VALIDATOR: "True"
     USE_PASSWORD_MINIMUM_LENGTH_VALIDATOR: "True"
