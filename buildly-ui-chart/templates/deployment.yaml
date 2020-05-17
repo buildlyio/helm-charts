@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Values.buildlyUi.name }}
@@ -11,6 +11,9 @@ spec:
     rollingUpdate:
       maxSurge: 100%
       maxUnavailable: 25%
+  selector:
+    matchLabels:
+      app: {{ .Values.buildlyUi.name }}
   template:
     metadata:
       labels:
